@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Sword_Man : MonoBehaviour
 {
     Animator animator;
-    public int maxHp;
-    public int nowHp;
-    public int atkDmg;
-    public float atkSpeed = 1;
+    public Status status;
+
     // 여러번 공격 방지용
     public bool attacked = false;
     public Image nowHpbar;
@@ -17,12 +16,13 @@ public class Sword_Man : MonoBehaviour
     bool inputRight = false;
     bool inputLeft = false;
     Rigidbody2D rigid2D;
-    public float moveSpeed = 5;
 
     BoxCollider2D col2D;
 
     public float jumpPower = 40;
     bool inputJump = false;
+
+    bool isSwordManDead = false;
 
     void AttackTrue()
     {
@@ -32,31 +32,48 @@ public class Sword_Man : MonoBehaviour
     {
         attacked = false;
     }
-    void SetAttackSpeed(float speed)
+    public void SetAttackSpeed(float speed)
     {
         animator.SetFloat("attackSpeed", speed);
-        atkSpeed = speed;
+        status.atkSpeed = speed;
     }
-    // Start is called before the first frame update
+    public float GetAttackSpeed()
+    {
+        return status.atkSpeed;
+    }
+
+    public void SetMoveSpeed(float speed)
+    {
+        status.moveSpeed = speed;
+    }
+
+    public float GetMoveSpeed()
+    {
+        return status.moveSpeed;
+    }
+    
     void Start()
     {
-        maxHp = 50;
-        nowHp = 50;
-        atkDmg = 10;
         // 오브젝트의 위치 초기화
         transform.position = new Vector3(0,0,0);
         // 오브젝트의 Animator 데이터를 받아옴
         animator = GetComponent<Animator>();
         rigid2D = GetComponent<Rigidbody2D>();
-
-        SetAttackSpeed(1.5f);
         col2D = GetComponent<BoxCollider2D>();
+
+        // 소드맨 스테이터스 설정
+        status = new Status();
+        status = status.SetUnitStatus(UnitCode.swordman);
+
+        SetAttackSpeed(status.atkSpeed);
+        StartCoroutine(CheckSwordManDeath());
     }
 
-    // Update is called once per frame
     void Update()
     {
-        nowHpbar.fillAmount = (float)nowHp / (float)maxHp;
+        if (isSwordManDead) return;
+
+        nowHpbar.fillAmount = (float)status.nowHp / (float)status.maxHp;
         // 좌우 방향키에 따른 값 받기        
         if (Input.GetKey(KeyCode.RightArrow)) 
         {
@@ -81,6 +98,8 @@ public class Sword_Man : MonoBehaviour
         {
             // "attack" 트리거 실행
             animator.SetTrigger("attack");
+            // 사운드 재생
+            SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack);
         }
         // Raycast로 땅과 충돌 체크
         RaycastHit2D raycastHit = 
@@ -100,12 +119,12 @@ public class Sword_Man : MonoBehaviour
         if (inputRight)
         {
             inputRight = false;
-            rigid2D.AddForce(Vector2.right * moveSpeed);
+            rigid2D.AddForce(Vector2.right * status.moveSpeed);
         }
         if (inputLeft)
         {
             inputLeft = false;
-            rigid2D.AddForce(Vector2.left * moveSpeed);
+            rigid2D.AddForce(Vector2.left * status.moveSpeed);
         }
 
         // 속도 제한
@@ -117,6 +136,30 @@ public class Sword_Man : MonoBehaviour
         {
             inputJump = false;
             rigid2D.AddForce(Vector2.up * jumpPower);
+        }
+    }
+
+    IEnumerator CheckSwordManDeath()
+    {
+        while (true)
+        {
+            // 땅 밑으로 떨어졌다면
+            if (transform.position.y < -8)
+            {
+                // Scene 재시작
+                SceneManager.LoadScene("Main");
+            }
+
+            if (status.nowHp <= 0)
+            {
+                isSwordManDead = true;
+                animator.SetTrigger("die");
+                // 2초 기다리기
+                yield return new WaitForSeconds(2);
+                SceneManager.LoadScene("Main");
+            }
+            // 매 프레임의 마지막 마다 실행
+            yield return new WaitForEndOfFrame();
         }
     }
 }

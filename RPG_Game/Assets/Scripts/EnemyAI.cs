@@ -26,14 +26,13 @@ public class EnemyAI : MonoBehaviour
         // 타겟과 자신의 거리를 확인
         float distance = Vector3.Distance(transform.position, target.position);
         // 공격 딜레이(쿨타임)가 0일 때, 시야 범위안에 들어올 때
-        if (attackDelay == 0 && distance <= enemy.fieldOfVision)
+        if (attackDelay == 0 && distance <= enemy.status.fieldOfVision)
         {
-            print("here");
             // 타겟 바라보기
             FaceTarget();
 
             // 공격 범위 안에 들어올 때 공격
-            if (distance <= enemy.atkRange)
+            if (distance <= enemy.status.atkRange)
             {
                 AttackTarget();
             }
@@ -55,7 +54,7 @@ public class EnemyAI : MonoBehaviour
     {
         float dir = target.position.x - transform.position.x;
         dir = (dir < 0) ? -1 : 1;
-        transform.Translate(new Vector2(dir, 0) * enemy.moveSpeed * Time.deltaTime);
+        transform.Translate(new Vector2(dir, 0) * enemy.status.moveSpeed * Time.deltaTime);
         enemyAnimator.SetBool("moving", true);
     }
 
@@ -74,10 +73,10 @@ public class EnemyAI : MonoBehaviour
 
     void AttackTarget()
     {
-        target.GetComponent<Sword_Man>().nowHp -= enemy.atkDmg;
+        target.GetComponent<Sword_Man>().status.nowHp -= enemy.status.atkDmg;
         // 공격 애니메이션 실행
         enemyAnimator.SetTrigger("attack");
         // 딜레이 충전
-        attackDelay = enemy.atkSpeed;
+        attackDelay = enemy.status.atkSpeed;
     }
 }

@@ -5,28 +5,8 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    public string enemyName;
-    public int maxHp;
-    public int nowHp;
-    public int atkDmg;
-    public float atkSpeed;
-    public float moveSpeed;
-    public float atkRange;
-    public float fieldOfVision;
-
-    private void SetEnemyStatus(string _enemyName, int _maxHp, 
-        int _atkDmg, float _atkSpeed, float _moveSpeed,
-        float _atkRange, float _fieldOfVision)
-    {
-        enemyName = _enemyName;
-        maxHp = _maxHp;
-        nowHp = _maxHp;
-        atkDmg = _atkDmg;
-        atkSpeed = _atkSpeed;
-        moveSpeed = _moveSpeed;
-        atkRange = _atkRange;
-        fieldOfVision = _fieldOfVision;
-    }
+    public Status status;
+    public UnitCode unitCode;
     
     public GameObject prfHpBar;
     public GameObject canvas;
@@ -50,13 +30,13 @@ public class Enemy : MonoBehaviour
         // GetComponent<컴포넌트 이름>(); 게임 오브젝트에 붙어있는 컴포넌트를 받아올 수 있음
         // 컴포넌트: RectTransform, Canvas Renderer, Image 등등 
         hpBar = Instantiate(prfHpBar, canvas.transform).GetComponent<RectTransform>();
-        if (name.Equals("Enemy1"))
-        {
-            SetEnemyStatus("Enemy1", 100, 10, 1.5f, 2, 1.5f, 7f);
-        }
         nowHpbar = hpBar.transform.GetChild(0).GetComponent<Image>();
+
+        status = new Status();
+        // enemy 마다 선택할 수 있도록 하기 위함
+        status = status.SetUnitStatus(unitCode);
         
-        SetAttackSpeed(atkSpeed);
+        SetAttackSpeed(status.atkSpeed);
     }
 
     void Update()
@@ -66,19 +46,19 @@ public class Enemy : MonoBehaviour
         Vector3 _hpBarPos = Camera.main.WorldToScreenPoint(
             new Vector3(transform.position.x, transform.position.y + height, 0));
         hpBar.position = _hpBarPos;
-        nowHpbar.fillAmount = (float)nowHp / (float)maxHp;
+        nowHpbar.fillAmount = (float)status.nowHp / (float)status.maxHp;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Player"))
+        if (col.CompareTag("Weapon"))
         {
             if (sword_man.attacked)
             {
-                nowHp -= sword_man.atkDmg;
+                status.nowHp -= sword_man.status.atkDmg;
                 sword_man.attacked = false;
                 // 몬스터 사망
-                if (nowHp <= 0)
+                if (status.nowHp <= 0)
                 {
                     Die();
                 }
