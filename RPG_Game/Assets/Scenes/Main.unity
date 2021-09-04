@@ -460,6 +460,7 @@ GameObject:
   - component: {fileID: 612163166}
   - component: {fileID: 612163168}
   - component: {fileID: 612163167}
+  - component: {fileID: 612163169}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -18603,6 +18604,25 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!95 &612163169
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612163165}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7407a93291d269c4ca935a29df31861c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1029238907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18676,7 +18696,7 @@ GameObject:
   - component: {fileID: 1118042556}
   - component: {fileID: 1118042555}
   m_Layer: 0
-  m_Name: 2_enemies_1_idle_000
+  m_Name: enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18760,7 +18780,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1118042554}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7000003, y: -0.53999996, z: 12.880594}
+  m_LocalPosition: {x: 0.6800003, y: 0.07000005, z: 12.880594}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1155734191}
@@ -18844,6 +18864,7 @@ GameObject:
   - component: {fileID: 1155734190}
   - component: {fileID: 1155734193}
   - component: {fileID: 1155734192}
+  - component: {fileID: 1155734194}
   m_Layer: 0
   m_Name: Enemy1
   m_TagString: Untagged
@@ -18863,15 +18884,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd9020582b393f74e9363c4220bd2fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prfHpBar: {fileID: 1873231979}
-  canvas: {fileID: 1411606936}
-  height: 1.7
   enemyName: 
   maxHp: 0
   nowHp: 0
   atkDmg: 0
   atkSpeed: 0
+  moveSpeed: 0
+  atkRange: 0
+  fieldOfVision: 0
+  prfHpBar: {fileID: 1873231979}
+  canvas: {fileID: 1411606936}
+  height: 1.7
   sword_man: {fileID: 2048731709}
+  enemyAnimator: {fileID: 1118042555}
 --- !u!4 &1155734191
 Transform:
   m_ObjectHideFlags: 0
@@ -18880,7 +18905,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155734189}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 42.77, y: 2.19, z: -12.880594}
+  m_LocalPosition: {x: 42.85, y: 0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1118042557}
@@ -18908,8 +18933,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!70 &1155734193
-CapsuleCollider2D:
+--- !u!61 &1155734193
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -18921,9 +18946,32 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.69}
-  m_Size: {x: 1.29, y: 2.43}
-  m_Direction: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.2, y: 2.7}
+  m_EdgeRadius: 0
+--- !u!114 &1155734194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155734189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e9e87de87240ee4e81abe7c06a48738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2048731711}
 --- !u!1 &1199187929 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1559754614193064, guid: 6877fb649746c674d8fbbcf60d41892b, type: 3}
@@ -18967,6 +19015,7 @@ GameObject:
   - component: {fileID: 1411606939}
   - component: {fileID: 1411606938}
   - component: {fileID: 1411606937}
+  - component: {fileID: 1411606941}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -19055,6 +19104,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!95 &1411606941
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411606936}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fa4f497fa3f204d48b740355ad6a449d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1873231979 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3125829091956493750, guid: 5db2a44b3b7a0a045b0b40d3c6cb3435, type: 3}
