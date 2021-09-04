@@ -388,10 +388,10 @@ MonoBehaviour:
   target: {fileID: 2048731711}
   smoothSpeed: 3
   offset: {x: 0, y: 0}
-  limitMinX: 0
-  limitMaxX: 0
-  limitMinY: 0
-  limitMaxY: 0
+  limitMinX: -20
+  limitMaxX: 70
+  limitMinY: -10
+  limitMaxY: 5
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
