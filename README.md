@@ -11,6 +11,26 @@
  - 프로그래밍 언어: C#  
  - 게임엔진 : Unity (2020.3.17f1 LTS)
 
+### 실습 코드
+[CameraFollow.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/CameraFollow.cs)  
+[Sword_Man.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/Sword_Man.cs)  
+[Enemy.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/Enemy.cs)  
+[EnemyAI.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/EnemyAI.cs)  
+[Status.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/Status.cs)  
+[UnitCode.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/UnitCode.cs)  
+
+Items
+[GemBlue.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/Items/GemBlue.cs)  
+[GemGreen.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/Items/GemGreen.cs)  
+[GemRed.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/Items/GemRed.cs)  
+
+Traps
+[Thorns.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/Traps/Thorns.cs)  
+
+Sounds
+[BGMManager.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/Sounds/BGMManager.cs)  
+[SFXManager.cs](https://github.com/kimeunh3/2d_rpg_game/blob/main/RPG_Game/Assets/Scripts/Sounds/SFXManager.cs)  
+
 ### 주요 기능
 * 맵 생성
 * 소드맨을 중심으로 카메라가 따라오게 설정
